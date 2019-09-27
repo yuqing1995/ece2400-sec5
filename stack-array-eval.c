@@ -18,44 +18,82 @@ void init_parray( int** parray, int* array, size_t size )
 int avg_array( int* array, size_t size )
 {
   //'''' ASSIGNMENT TASK '''''''''''''''''''''''''''''''''''''''''''''''''
-  // Implement this function
+  int sum = 0;
+  for (int i=0; i < size; i++){
+    sum += array[i];
+  }
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-  return 0;
+  return sum / size;
 }
 
 int avg_parray( int** parray, size_t size )
 {
   //'''' ASSIGNMENt TASK '''''''''''''''''''''''''''''''''''''''''''''''''
-  // Implement this function
+  int sum = 0;
+  for (int i=0; i<size; i++){
+    sum += *(parray[i]);
+  }
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-  return 0;
+  return sum / size;
 }
 
 int main( void )
 {
   srand(99);
+  int ntrials    = 5;
+  int nsubtrials = 1e5;
 
-  // Run an experiment
+  double elapsed_avg = 0.0;
+  for ( int i = 0; i < ntrials; i++ ) {
 
-  int x = 0;
-  int y = 0;
+    // Track time using timers
 
-  int array[1000];
-  init_array( array, 1000 );
+    struct timeval start;
+    struct timeval end;
 
-  int* parray[1000];
-  init_parray( parray, array, 1000 );
+    // Start tracking time
 
-  x = avg_array( array, 1000 );
-  y = avg_parray( parray, 1000 );
+    gettimeofday( &start, NULL );
 
-  // Print averages
+    // Run the experiment
 
-  printf(" avg_array = %d, avg_parray = %d \n", x, y );
+    for ( int j = 0; j < nsubtrials; j++ ) {
 
-  return 0;
+      // Run an experiment
+
+      int x = 0;
+      int y = 0;
+    
+      int array[1000];
+      init_array( array, 1000 );
+    
+      int* parray[1000];
+      init_parray( parray, array, 1000 );
+    
+      x = avg_array( array, 1000 );
+      y = avg_parray( parray, 1000 );
+      // printf("avg_array = %d, avg_parray = %d", x, y);
+    }
+    // Stop tracking time
+
+    gettimeofday( &end, NULL );
+
+    // Calculate elapsed time
+
+    double elapsed = ( end.tv_sec - start.tv_sec ) +
+                   ( ( end.tv_usec - start.tv_usec ) / 1000000.0 );
+
+    elapsed_avg += elapsed;
+
+    printf( "Elapsed time for trial %d is %f\n", i, elapsed );
+  }
+  // Calculate average elapsed time per trial
+
+  elapsed_avg = elapsed_avg / ntrials;
+
+  printf( "Elapsed time (averaged) is %f\n", elapsed_avg );
 }
 
 

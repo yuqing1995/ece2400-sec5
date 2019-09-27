@@ -31,7 +31,7 @@ int main( void )
   // gettimeofday().
 
   int ntrials    = 5;
-  int nsubtrials = 1e5;
+  int nsubtrials = 1;
 
   double elapsed_avg = 0.0;
 
@@ -53,6 +53,7 @@ int main( void )
     for ( int j = 0; j < nsubtrials; j++ ) {
       int* array = rand_array( 1000 );
       x = avg_array( array, 1000 );
+      free(array);
     }
 
     // Stop tracking time
@@ -78,6 +79,7 @@ int main( void )
   elapsed_avg = elapsed_avg / ntrials;
 
   printf( "Elapsed time (averaged) is %f\n", elapsed_avg );
+  
 
   return 0;
 }
