@@ -3,19 +3,19 @@
 #include <stddef.h>
 #include <stdio.h>
 
-void init_array( int array[], size_t size )
+void init_array( int* array, size_t size )
 {
   for ( size_t i = 0; i < size; i++ )
     array[i] = rand() % 1000;
 }
 
-void init_parray( int* parray[], int array[], size_t size )
+void init_parray( int** parray, int* array, size_t size )
 {
   for ( size_t i = 0; i < size; i++ )
     parray[i] = &(array[i]);
 }
 
-int avg_array( int array[], size_t size )
+int avg_array( int* array, size_t size )
 {
   //'''' ASSIGNMENT TASK '''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement this function
@@ -24,7 +24,7 @@ int avg_array( int array[], size_t size )
   return 0;
 }
 
-int avg_parray( int* parray[], size_t size )
+int avg_parray( int** parray, size_t size )
 {
   //'''' ASSIGNMENt TASK '''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement this function
@@ -37,21 +37,19 @@ int main( void )
 {
   srand(99);
 
-  const int size = 1000;
-
   // Run an experiment
 
-  int x;
-  int y;
+  int x = 0;
+  int y = 0;
 
-  int array[size];
-  init_array( array, size );
+  int array[1000];
+  init_array( array, 1000 );
 
-  int* parray[size];
-  init_parray( parray, array, size );
+  int* parray[1000];
+  init_parray( parray, array, 1000 );
 
-  x = avg_array( array, size );
-  y = avg_parray( parray, size );
+  x = avg_array( array, 1000 );
+  y = avg_parray( parray, 1000 );
 
   // Print averages
 
